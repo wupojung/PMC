@@ -920,7 +920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5fa0fb571b4d4243861cbeea7871045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjectToInstantiate: {fileID: 944241159237889243, guid: 7cc4a7bbbcdf6e14aadb9525fd5946c7, type: 3}
+  gameObjectToInstantiate: {fileID: 859618914016926373, guid: 735a7d1017fbf2747910f3836651489b, type: 3}
 --- !u!114 &924211011
 MonoBehaviour:
   m_ObjectHideFlags: 0
