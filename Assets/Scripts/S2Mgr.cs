@@ -55,7 +55,7 @@ public class S2Mgr : MonoBehaviour
             transTarget.Rotate(Vector3.right, rotY);
         }
         */
-        Debug.Log(Input.touchCount);
+        //Debug.Log(Input.touchCount);
 
         ProcessOneTouch();
         ProcessTwoTouch();
