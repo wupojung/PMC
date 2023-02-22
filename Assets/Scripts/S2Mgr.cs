@@ -55,21 +55,23 @@ public class S2Mgr : MonoBehaviour
             transTarget.Rotate(Vector3.right, rotY);
         }
         */
+        Debug.Log(Input.touchCount);
 
         ProcessOneTouch();
         ProcessTwoTouch();
-
     }
 
     void ProcessOneTouch()
     {
+        
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
             Vector2 pos = touch.deltaPosition;
-            
-            transTarget.Rotate(Vector3.down *pos.x, Space.World);
-            transTarget.Rotate(Vector3.right *pos.y, Space.World);
+            Debug.Log($"touch one {pos}");
+
+            transTarget.Rotate(Vector3.down * pos.x, Space.World);
+            transTarget.Rotate(Vector3.right * pos.y, Space.World);
         }
     }
 
@@ -93,13 +95,13 @@ public class S2Mgr : MonoBehaviour
             float newDistance = Vector2.Distance(newTouch1.position, newTouch2.position);
 
             float offset = newDistance - oldDistance;
-            
+
 
             if (offset > 0)
             {
                 OnBtnZoomInClick();
             }
-            
+
             if (offset < 0)
             {
                 OnBtnZoomOutClick();
