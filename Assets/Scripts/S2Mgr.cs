@@ -68,7 +68,7 @@ public class S2Mgr : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
             Vector2 pos = touch.deltaPosition;
-            Debug.Log($"touch one {pos}");
+            //Debug.Log($"touch one {pos}");
 
             transTarget.Rotate(Vector3.down * pos.x, Space.World);
             transTarget.Rotate(Vector3.right * pos.y, Space.World);
