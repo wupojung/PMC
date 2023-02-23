@@ -18,10 +18,15 @@ public class S1Mgr : MonoBehaviour
 
     public GameObject arSessionOrigin;
 
+    public Button btnRule;
+    private bool showRule = true;
+    
+
 
     private ARTapToPlaceObject _arTapToPlaceObject;
     private ARPlaneManager _arPlaneManager;
     private bool isReset = false;
+
 
     private void Awake()
     {
@@ -38,7 +43,7 @@ public class S1Mgr : MonoBehaviour
         //btnPlay.onClick.AddListener(OnBtnPlayClick);
         btnHome.onClick.AddListener(OnBtnHomeClick);
 
-
+        btnRule.onClick.AddListener(OnBtnRuleClick);
         btnZoomIn.onClick.AddListener(OnZoomInClick);
         btnZoomOut.onClick.AddListener(OnZoomOutClick);
     }
@@ -93,6 +98,23 @@ public class S1Mgr : MonoBehaviour
     void OnBtnHomeClick()
     {
         GameDb.LoadingSceneAsync("S0");
+    }
+
+
+    void OnBtnRuleClick()
+    {
+        GameObject spawned = _arTapToPlaceObject.GetSpawnedObject();
+        if (spawned != null)
+        {
+            for (int i = 0; i < spawned.transform.childCount; i++)
+            {
+                if (spawned.transform.GetChild(i).name.Equals("Measure_Line_Grp"))
+                {
+                    showRule = !showRule;
+                    spawned.transform.GetChild(i).gameObject.SetActive(showRule);
+                }
+            }
+        }
     }
 
     void OnZoomInClick()
