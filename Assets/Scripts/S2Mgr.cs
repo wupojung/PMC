@@ -13,7 +13,10 @@ public class S2Mgr : MonoBehaviour
     public Button btnZoomOut;
 
 
-    public PointerButton btn360;
+    public Button btnRule;
+    private bool showRule = true;
+    public GameObject ruleObj;
+    
     public float rotateDeg = 40;
 
 
@@ -32,10 +35,13 @@ public class S2Mgr : MonoBehaviour
 
     private Touch oldTouch1, oldTouch2;
 
+    private bool isDirty = true;
+
 
     private void Awake()
     {
         imgButton = btnHome.gameObject.transform.GetComponent<Image>();
+        btnRule.onClick.AddListener(OnBtnRuleClick);
     }
 
     void Start()
@@ -74,9 +80,16 @@ public class S2Mgr : MonoBehaviour
         */
         //Debug.Log(Input.touchCount);
 
+        if (isDirty)
+        {
+            ruleObj.SetActive(showRule);
+            isDirty = false;
+        }
 
         ProcessOneTouch();
         ProcessTwoTouch();
+        
+        
     }
 
     public float ClickDuration = 2;
@@ -178,6 +191,12 @@ public class S2Mgr : MonoBehaviour
             oldTouch1 = newTouch1;
             oldTouch2 = newTouch2;
         }
+    }
+
+    void OnBtnRuleClick()
+    {
+        showRule = !showRule;
+        isDirty = true;
     }
 
     void OnBtnZoomInClick()
