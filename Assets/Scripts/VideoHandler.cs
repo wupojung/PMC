@@ -22,6 +22,12 @@ public class VideoHandler : MonoBehaviour
     private void OnEnable()
     {
         gameObject.SetActive(true);
+
+        //重新校正至 1920 : 1080 的比例
+        int height = Screen.width * 1080 / 1920;
+        RectTransform rt =(gameObject.transform.GetChild(0).transform as RectTransform); 
+        rt.sizeDelta= new Vector2(rt.sizeDelta.x,height);
+
         if (_videoPlayer.isPlaying)
         {
             _videoPlayer.Stop();
@@ -31,6 +37,7 @@ public class VideoHandler : MonoBehaviour
         Debug.Log($"Name={_videoPlayer.clip.name}");
         _videoPlayer.Play();
     }
+
 
     private void Start()
     {
@@ -56,6 +63,7 @@ public class VideoHandler : MonoBehaviour
         {
             _videoPlayer.Stop();
         }
+
         _videoPlayer.clip = videoClipList[index];
         Debug.Log($"Name={_videoPlayer.clip.name}");
         _videoPlayer.Play();

@@ -23,10 +23,20 @@ public class S2Mgr : MonoBehaviour
     public Button btnHome;
 
 
+    public Sprite imgBack;
+    public Sprite imgHome;
+    public Sprite imgSkip;
+    private Image imgButton;
+
     private Vector3 _scale = new Vector3(1, 1, 1);
 
     private Touch oldTouch1, oldTouch2;
 
+
+    private void Awake()
+    {
+        imgButton = btnHome.gameObject.transform.GetComponent<Image>();
+    }
 
     void Start()
     {
@@ -38,11 +48,14 @@ public class S2Mgr : MonoBehaviour
         btnHome.onClick.AddListener(OnBtnHomeClick);
 
         sidePanelHandler.PlayAnimationEvent += OnPlayAnimation;
+
+      
     }
 
     private void OnEnable()
     {
         videoHandler.gameObject.SetActive(true);
+        imgButton.sprite = imgSkip;
     }
 
     void Update()
@@ -183,6 +196,7 @@ public class S2Mgr : MonoBehaviour
     {
         if (videoHandler.IsPlaying)
         {
+            imgButton.sprite = imgHome;
             videoHandler.Stop();
         }
         else
@@ -194,6 +208,7 @@ public class S2Mgr : MonoBehaviour
     public void OnPlayAnimation(int index)
     {
         Debug.Log($"Get index={index} from S2Mgr");
+        imgButton.sprite = imgBack;
         videoHandler.Play(index);
     }
 
