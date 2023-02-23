@@ -57,21 +57,61 @@ public class S2Mgr : MonoBehaviour
         */
         //Debug.Log(Input.touchCount);
 
+
         ProcessOneTouch();
         ProcessTwoTouch();
     }
 
+    public float ClickDuration = 2;
+
+    //public UnityEvent OnLongClick;
+    private float totalDownTime = 0;
+    private bool clicking = false;
+    private bool isLong = false;
+
     void ProcessOneTouch()
     {
-        
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
             Vector2 pos = touch.deltaPosition;
             //Debug.Log($"touch one {pos}");
 
-            transTarget.Rotate(Vector3.down * pos.x, Space.World);
-            transTarget.Rotate(Vector3.right * pos.y, Space.World);
+            if (!clicking)
+            {
+                //first time clicing 
+                totalDownTime = 0;
+                clicking = true;
+            }
+
+            if (clicking && Input.GetMouseButton(0))
+            {
+                totalDownTime += Time.deltaTime;
+
+                if (totalDownTime >= ClickDuration)
+                {
+                    Debug.Log("Long click");
+                    //clicking = false;
+                    isLong = true;
+                    //OnLongClick.Invoke();
+                }
+            }
+
+            if (isLong)
+            {
+                transTarget.Translate(Vector3.down * pos.x, Space.World);
+                transTarget.Translate(Vector3.right * pos.y, Space.World);
+            }
+            else
+            {
+                transTarget.Rotate(Vector3.down * pos.x, Space.World);
+                transTarget.Rotate(Vector3.right * pos.y, Space.World);
+            }
+        }
+        else
+        {
+            clicking = false;
+            isLong = false;
         }
     }
 
