@@ -16,7 +16,7 @@ public class S2Mgr : MonoBehaviour
     public Button btnRule;
     private bool showRule = true;
     public GameObject ruleObj;
-    
+
     public float rotateDeg = 40;
 
 
@@ -54,8 +54,6 @@ public class S2Mgr : MonoBehaviour
         btnHome.onClick.AddListener(OnBtnHomeClick);
 
         sidePanelHandler.PlayAnimationEvent += OnPlayAnimation;
-
-      
     }
 
     private void OnEnable()
@@ -88,8 +86,6 @@ public class S2Mgr : MonoBehaviour
 
         ProcessOneTouch();
         ProcessTwoTouch();
-        
-        
     }
 
     public float ClickDuration = 2;
@@ -202,12 +198,14 @@ public class S2Mgr : MonoBehaviour
     void OnBtnZoomInClick()
     {
         _scale *= 1.1f;
+        Debug.Log($"Scale :{_scale}");
         transTarget.localScale = _scale;
     }
 
     void OnBtnZoomOutClick()
     {
         _scale *= 0.9f;
+        Debug.Log($"Scale :{_scale}");
         transTarget.localScale = _scale;
     }
 
