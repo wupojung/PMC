@@ -40,6 +40,10 @@ public class S2Mgr : MonoBehaviour
         sidePanelHandler.PlayAnimationEvent += OnPlayAnimation;
     }
 
+    private void OnEnable()
+    {
+        videoHandler.gameObject.SetActive(true);
+    }
 
     void Update()
     {

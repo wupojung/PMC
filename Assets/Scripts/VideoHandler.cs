@@ -12,9 +12,24 @@ public class VideoHandler : MonoBehaviour
 
     private VideoPlayer _videoPlayer;
 
+    public VideoClip BeginVideo;
+
     private void Awake()
     {
         _videoPlayer = GetComponent<VideoPlayer>();
+    }
+
+    private void OnEnable()
+    {
+        gameObject.SetActive(true);
+        if (_videoPlayer.isPlaying)
+        {
+            _videoPlayer.Stop();
+        }
+
+        _videoPlayer.clip = BeginVideo;
+        Debug.Log($"Name={_videoPlayer.clip.name}");
+        _videoPlayer.Play();
     }
 
     private void Start()
@@ -40,10 +55,9 @@ public class VideoHandler : MonoBehaviour
         if (_videoPlayer.isPlaying)
         {
             _videoPlayer.Stop();
-            _videoPlayer.clip = videoClipList[index];
-            Debug.Log($"Name={_videoPlayer.clip.name}");
         }
-
+        _videoPlayer.clip = videoClipList[index];
+        Debug.Log($"Name={_videoPlayer.clip.name}");
         _videoPlayer.Play();
     }
 

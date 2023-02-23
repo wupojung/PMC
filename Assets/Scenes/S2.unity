@@ -1214,7 +1214,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227536755}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: b5f4ceb9fe3dcd9409c01658b4d637be, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: b9006db9b043d5d479e12421b40b9bbd, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -1257,6 +1257,7 @@ MonoBehaviour:
   - {fileID: 32900000, guid: b5f4ceb9fe3dcd9409c01658b4d637be, type: 3}
   - {fileID: 32900000, guid: 69834f55e35183d4cb2a090842a9ff1b, type: 3}
   - {fileID: 32900000, guid: 71cc6cac64980344ea0ac739c87bd888, type: 3}
+  BeginVideo: {fileID: 32900000, guid: b9006db9b043d5d479e12421b40b9bbd, type: 3}
 --- !u!1 &1283981437
 GameObject:
   m_ObjectHideFlags: 0
@@ -2079,6 +2080,7 @@ MonoBehaviour:
   videoHandler: {fileID: 1227536758}
   sidePanelHandler: {fileID: 162608607}
   btnHome: {fileID: 1346770198}
+  ClickDuration: 2
 --- !u!1 &1888490340
 GameObject:
   m_ObjectHideFlags: 0
