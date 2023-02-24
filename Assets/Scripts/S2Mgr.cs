@@ -12,24 +12,27 @@ public class S2Mgr : MonoBehaviour
     public Button btnZoomIn;
     public Button btnZoomOut;
 
-
+    public Button btnReset;
     public Button btnRule;
     private bool showRule = true;
+
     public GameObject ruleObj;
 
     public float rotateDeg = 40;
-
 
     public VideoHandler videoHandler;
     public SidePanelHandler sidePanelHandler;
 
     public Button btnHome;
 
-
     public Sprite imgBack;
     public Sprite imgHome;
     public Sprite imgSkip;
-    private Image imgButton;
+    private Image _imgButton;
+
+    public FixedJoystick hJoystick;
+
+    public FixedJoystick joystick;
 
     private Vector3 _scale = new Vector3(1, 1, 1);
 
@@ -37,15 +40,16 @@ public class S2Mgr : MonoBehaviour
 
     private bool isDirty = true;
 
+    public Vector3 defaultPosition = new Vector3(-0.5f, -1f, -5f);
+    public Vector3 defaultRotation = new Vector3(0, 20, 0);
+    public Vector3 defaultScale = new Vector3(1, 1, 1);
+
 
     private void Awake()
     {
-        imgButton = btnHome.gameObject.transform.GetComponent<Image>();
+        _imgButton = btnHome.gameObject.transform.GetComponent<Image>();
         btnRule.onClick.AddListener(OnBtnRuleClick);
-    }
-
-    void Start()
-    {
+        btnReset.onClick.AddListener(OnBtnResetClick);
         btnZoomIn.onClick.AddListener(OnBtnZoomInClick);
         btnZoomOut.onClick.AddListener(OnBtnZoomOutClick);
         //btnSidePanel.onClick.AddListener(OnBtnOpenSideMenuClick);
@@ -59,8 +63,16 @@ public class S2Mgr : MonoBehaviour
     private void OnEnable()
     {
         videoHandler.gameObject.SetActive(true);
-        imgButton.sprite = imgSkip;
+        _imgButton.sprite = imgSkip;
+        
+        OnBtnResetClick();
     }
+    void Start()
+    {
+      
+    }
+
+
 
     void Update()
     {
@@ -84,16 +96,28 @@ public class S2Mgr : MonoBehaviour
             isDirty = false;
         }
 
+
+        ProcessJoystick();
         ProcessOneTouch();
         ProcessTwoTouch();
     }
 
-    public float ClickDuration = 2;
+    void ProcessJoystick()
+    {
+        if (joystick.Direction != Vector2.zero)
+        {
+            Debug.Log($"joystick:{joystick.Direction}");
+            Vector3 position = new Vector3(joystick.Direction.x, 0, joystick.Direction.y);
+            transTarget.Translate(position * Time.deltaTime); //位移方法
+        }
 
-    //public UnityEvent OnLongClick;
-    private float totalDownTime = 0;
-    private bool clicking = false;
-    private bool isLong = false;
+        if (hJoystick.Direction != Vector2.zero)
+        {
+            Debug.Log($"H joystick:{hJoystick.Direction}");
+            Vector3 position = new Vector3(0, hJoystick.Direction.y, 0);
+            transTarget.Translate(position * Time.deltaTime); //位移方法
+        }
+    }
 
     void ProcessOneTouch()
     {
@@ -103,41 +127,8 @@ public class S2Mgr : MonoBehaviour
             Vector2 pos = touch.deltaPosition;
             //Debug.Log($"touch one {pos}");
 
-            if (!clicking)
-            {
-                //first time clicing 
-                totalDownTime = 0;
-                clicking = true;
-            }
-
-            if (clicking && Input.GetMouseButton(0))
-            {
-                totalDownTime += Time.deltaTime;
-
-                if (totalDownTime >= ClickDuration)
-                {
-                    Debug.Log("Long click");
-                    //clicking = false;
-                    isLong = true;
-                    //OnLongClick.Invoke();
-                }
-            }
-
-            if (isLong)
-            {
-                transTarget.Translate(Vector3.down * pos.x, Space.World);
-                transTarget.Translate(Vector3.right * pos.y, Space.World);
-            }
-            else
-            {
-                transTarget.Rotate(Vector3.down * pos.x, Space.World);
-                transTarget.Rotate(Vector3.right * pos.y, Space.World);
-            }
-        }
-        else
-        {
-            clicking = false;
-            isLong = false;
+            transTarget.Rotate(Vector3.down * pos.x, Space.World);
+            transTarget.Rotate(Vector3.right * pos.y, Space.World);
         }
     }
 
@@ -189,6 +180,13 @@ public class S2Mgr : MonoBehaviour
         }
     }
 
+    void OnBtnResetClick()
+    {
+        transTarget.localPosition = defaultPosition;
+        transTarget.localEulerAngles = defaultRotation;
+        transTarget.localScale = defaultScale;
+    }
+
     void OnBtnRuleClick()
     {
         showRule = !showRule;
@@ -213,7 +211,7 @@ public class S2Mgr : MonoBehaviour
     {
         if (videoHandler.IsPlaying)
         {
-            imgButton.sprite = imgHome;
+            _imgButton.sprite = imgHome;
             videoHandler.Stop();
         }
         else
@@ -225,7 +223,7 @@ public class S2Mgr : MonoBehaviour
     public void OnPlayAnimation(int index)
     {
         Debug.Log($"Get index={index} from S2Mgr");
-        imgButton.sprite = imgBack;
+        _imgButton.sprite = imgBack;
         videoHandler.Play(index);
     }
 
