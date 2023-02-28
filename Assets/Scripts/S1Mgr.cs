@@ -20,7 +20,6 @@ public class S1Mgr : MonoBehaviour
 
     public Button btnRule;
     private bool showRule = true;
-    
 
 
     private ARTapToPlaceObject _arTapToPlaceObject;

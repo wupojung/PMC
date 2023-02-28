@@ -51,6 +51,7 @@ public class VideoHandler : MonoBehaviour
 
     void CheckOver(VideoPlayer vp)
     {
+        Debug.Log("Video Stop Now!!");
         gameObject.SetActive(false);
     }
 

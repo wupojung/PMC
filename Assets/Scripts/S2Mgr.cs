@@ -32,7 +32,7 @@ public class S2Mgr : MonoBehaviour
 
     public FixedJoystick hJoystick;
 
-    public FixedJoystick joystick;
+    public FixedJoystick fJoystick;
 
     private Vector3 _scale = new Vector3(1, 1, 1);
 
@@ -64,14 +64,13 @@ public class S2Mgr : MonoBehaviour
     {
         videoHandler.gameObject.SetActive(true);
         _imgButton.sprite = imgSkip;
-        
+
         OnBtnResetClick();
     }
+
     void Start()
     {
-      
     }
-
 
 
     void Update()
@@ -98,16 +97,19 @@ public class S2Mgr : MonoBehaviour
 
 
         ProcessJoystick();
-        ProcessOneTouch();
-        ProcessTwoTouch();
+        if (fJoystick.Direction == Vector2.zero && hJoystick.Direction == Vector2.zero)
+        {
+            ProcessOneTouch();
+            ProcessTwoTouch();
+        }
     }
 
     void ProcessJoystick()
     {
-        if (joystick.Direction != Vector2.zero)
+        if (fJoystick.Direction != Vector2.zero)
         {
-            Debug.Log($"joystick:{joystick.Direction}");
-            Vector3 position = new Vector3(joystick.Direction.x, 0, joystick.Direction.y);
+            Debug.Log($"joystick:{fJoystick.Direction}");
+            Vector3 position = new Vector3(fJoystick.Direction.x, 0, fJoystick.Direction.y);
             transTarget.Translate(position * Time.deltaTime); //位移方法
         }
 
@@ -127,7 +129,7 @@ public class S2Mgr : MonoBehaviour
             Vector2 pos = touch.deltaPosition;
             //Debug.Log($"touch one {pos}");
 
-            transTarget.Rotate(Vector3.down * pos.x, Space.World);
+            transTarget.Rotate(Vector3.down * pos.x*0.5f, Space.World);
             transTarget.Rotate(Vector3.right * pos.y, Space.World);
         }
     }
